@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Smart Scheme Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; min-height: 100vh; display: flex; flex-direction: column; }
+        .navbar { background-color: #2c3e50; }
+        .scheme-card { transition: transform 0.2s; border-radius: 12px; }
+        .scheme-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
+        .footer { margin-top: auto; background: white; padding: 20px 0; border-top: 1px solid #dee2e6; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="/">🏛️ Smart Scheme Finder</a>
+        <a href="/" class="btn btn-outline-light btn-sm">New Search</a>
+    </div>
+</nav>
+
+<div class="container mb-5">
+    <h3 class="mb-4">
+        {% if count > 0 %}
+            Found {{ count }} matching schemes
+        {% else %}
+            No schemes found
+        {% endif %}
+    </h3>
+
+    <div class="row">
+        {% for s in schemes %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0 scheme-card">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-info text-dark">
+                            {% if s.state and s.state != 'Central' and s.state != 'All' %}
+                                📍 {{ s.state }}
+                            {% else %}
+                                🏛️ Central Govt
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <h5 class="card-title text-dark fw-bold">{{ s.name }}</h5>
+                    <p class="card-text text-muted small flex-grow-1">
+                        {{ s.benefit }}
+                    </p>
+
+                    <div class="mt-3 d-flex gap-2">
+                        <a href="/scheme/{{ s.slug }}" class="btn btn-outline-primary flex-fill">
+                            View Details
+                        </a>
+                        
+                        {% if s.url and s.url != 'None' and s.url != 'nan' %}
+                            <a href="{{ s.url }}" target="_blank" class="btn btn-success flex-fill">
+                                Apply Now ↗
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-warning text-center">
+                    <h4>No schemes matched your criteria.</h4>
+                    <p>Try selecting "All India" or different keywords.</p>
+                    <a href="/" class="btn btn-primary mt-2">Go Back</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<footer class="footer text-center text-muted">
+    <div class="container">
+        <small>Semantic Government Scheme Finder &copy; 2024</small>
+    </div>
+</footer>
+
+</body>
+</html>

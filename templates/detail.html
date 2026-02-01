@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ s.name }} - Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .section-header { 
+            border-left: 5px solid #007bff; 
+            padding-left: 15px; 
+            margin-top: 30px; 
+            color: #0056b3; 
+            margin-bottom: 15px;
+        }
+        .point-item { 
+            margin-bottom: 8px; 
+            padding: 12px; 
+            background: #fff; 
+            border-radius: 8px; 
+            border-left: 3px solid #e9ecef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+        }
+        .point-item:hover { border-left-color: #28a745; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">🏛️ Smart Scheme Finder</a>
+            <a href="/" class="btn btn-outline-light btn-sm">New Search</a>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        
+        <div class="d-flex justify-content-between align-items-start mb-3">
+            <h2 class="text-dark">{{ s.name }}</h2>
+            {% if s.url and s.url != 'None' %}
+                <a href="{{ s.url }}" target="_blank" class="btn btn-success btn-lg">Apply Now ↗</a>
+            {% endif %}
+        </div>
+
+        <span class="badge bg-info text-dark mb-4 fs-6">📍 {{ s.state }}</span>
+
+        <div class="row">
+            <div class="col-md-8">
+                
+                <h4 class="section-header">✅ Eligibility Criteria</h4>
+                {% if s.eligibility %}
+                    {% for point in s.eligibility %}
+                        <div class="point-item">📌 {{ point }}</div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No specific eligibility criteria found.</p>
+                {% endif %}
+
+                <h4 class="section-header">📝 How to Apply</h4>
+                {% if s.application %}
+                    {% for step in s.application %}
+                        <div class="point-item">🔹 {{ step }}</div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">Application process details not available.</p>
+                {% endif %}
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-primary mb-4">
+                    <div class="card-header bg-primary text-white fw-bold">📑 Required Documents</div>
+                    <div class="card-body bg-white">
+                        <ul class="list-group list-group-flush">
+                        {% if s.documents %}
+                            {% for doc in s.documents %}
+                                <li class="list-group-item border-0 ps-0">📄 {{ doc }}</li>
+                            {% endfor %}
+                        {% else %}
+                             <li class="list-group-item text-muted">No documents specified.</li>
+                        {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h4 class="section-header">💰 Benefits</h4>
+                    {% if s.benefit %}
+                        {% for b in s.benefit %}
+                            <div class="alert alert-success py-2">⭐ {{ b }}</div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Benefit details not available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5 pb-5">
+            <a href="/" class="btn btn-secondary">← Back to Search</a>
+        </div>
+    </div>
+
+</body>
+</html>
